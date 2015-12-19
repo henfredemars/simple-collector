@@ -19,11 +19,11 @@ make clean
 make all
 ```
 
-The collector uses C++11 features (primarily for the auto keyword and deletion of implicitly-declared members) but otherwise shouldn't depend on external libraries. A test program is provided. It shouldn't be hard to port to older C++ if your application requires this. If nothing else, it provides a nice little starting point.
+The collector uses C++11 features (primarily for the auto keyword and deletion of implicitly-declared members) but otherwise shouldn't depend on external libraries. A test program is provided. It shouldn't be hard to port to older C++ if your application requires this. If nothing else, it provides a starting point.
 
 # Usage
 
-To make use of the collector, first call the macro GC_INIT() defined in src/gc_init.h as soon as possible, preferably as the very first statement in main(). This performs any required initialization, which presently simply injects a small variable to mark the boundary of your stack. This value is used to set stack boundaries and helps to reject attempts to delete objects that were incidentally or otherwise stack-allocated. 
+To make use of the collector, first call the macro GC_INIT() defined in src/gc_init.h as soon as possible, preferably as the first statement in main(). This performs any required initialization, which presently injects a small local variable to mark the boundary of your stack. This value is used to set stack boundaries and helps to reject attempts to delete objects that were incidentally or otherwise stack-allocated. 
 
 Next, implement your garbage collected objects as subclasses of gc_obj declared in src/include/gc_obj.h. Override the getManagedChildren() pure virtual method to return any outgoing references to other collected objects. 
 
