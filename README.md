@@ -29,5 +29,54 @@ Next, implement your garbage collected objects as subclasses of gc_obj declared 
 
 Decide on the root objects for your garbage collected area. In a tree structure, this would be the root node, or the main node of your object graph. A root object might be created expressly to reference other garbage-collected objects in your object pool. 
 
-Finally, create an instance of Collector (src/include/collector.h) and add the root object with Collector.addRoot(obj). The collector will recursively scan the root and all of its connected children via the overriden getManagedChildren() methods. You may also add managed objects using manually using Collector.addObject() on each object. 
+Finally, create an instance of Collector (src/include/collector.h) and add the root object with Collector.addRoot(obj). The collector will recursively scan the root and all of its connected children via the overriden getManagedChildren() methods. You may also add managed objects manually using Collector.addObject() on each object. When creating new objects, it is not enough that the new objects are returned as managed children later. You must explicitly call Collector.addObject(obj) when a new object should be subject to garbage collection. 
+
+# Example
+
+```
+class BinaryTreeNode : public gc_obj {
+public:
+	BinaryTreeNode() {};
+	void extendToLevel(const int size,Collector* collector);
+	virtual void finalize() { printf("Finalize!\n"); }
+	virtual std::unordered_set<gc_obj*> getManagedChildren();
+private:
+	BinaryTreeNode* leftChild;
+	BinaryTreeNode* rightChild;
+};
+
+void BinaryTreeNode::extendToLevel(const int size,Collector* collector) {
+	if (size==0) return;
+	if (leftChild && rightChild) {
+	  leftChild->extendToLevel(size-1,collector);
+	  rightChild->extendToLevel(size-1,collector);
+	} else if (!leftChild) {
+	  leftChild = new BinaryTreeNode(size);
+	  collector->addObject(leftChild);
+	  this->extendToLevel(size,collector);
+	} else {
+	  rightChild = new BinaryTreeNode(size);
+	  collector->addObject(rightChild);
+	  this->extendToLevel(size,collector);
+	}
+}
+
+std::unordered_set<gc_obj*> BinaryTreeNode::getManagedChildren() {
+	std::unordered_set<gc_obj*> children;
+	if (leftChild)
+	  children.insert(leftChild);
+	if (rightChild)
+	  children.insert(rightChild);
+	return children;
+}
+
+int main(int arc, char** argv) {
+	GC_INIT();
+	Collector collector;
+	BinaryTreeNode* node = new BinaryTreeNode();
+	collector.addRoot(node);
+	node->extendToLevel(4,&collector);
+	collector.collect();
+}
+```
 
