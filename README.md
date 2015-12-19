@@ -19,7 +19,7 @@ make clean
 make all
 ```
 
-The collector uses C++11 features (primarily for the auto keyword and deletion of implicitly-delcared members) but otherwise shouldn't depend on external libraries. A test program is provided. It shouldn't be hard to port to older C++ if your application requires this. If nothing else, it provides a nice little starting point.
+The collector uses C++11 features (primarily for the auto keyword and deletion of implicitly-declared members) but otherwise shouldn't depend on external libraries. A test program is provided. It shouldn't be hard to port to older C++ if your application requires this. If nothing else, it provides a nice little starting point.
 
 # Usage
 
