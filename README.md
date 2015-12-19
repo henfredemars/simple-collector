@@ -41,7 +41,6 @@ public:
 	void extendToLevel(const int size,Collector* collector);
 	virtual void finalize() { printf("Finalize!\n"); }
 	virtual std::unordered_set<gc_obj*> getManagedChildren();
-private:
 	BinaryTreeNode* leftChild;
 	BinaryTreeNode* rightChild;
 };
@@ -77,6 +76,8 @@ int main(int arc, char** argv) {
 	BinaryTreeNode* node = new BinaryTreeNode();
 	collector.addRoot(node);
 	node->extendToLevel(4,&collector);
+	node->leftChild = nullptr;
+	node->rightChild = nullptr;
 	collector.collect();
 }
 ```
