@@ -17,7 +17,7 @@ enum MarkState {
 class gc_obj {
 public:
 	gc_obj();
-	~gc_obj() = delete; //No destructors allowed
+	~gc_obj();
 	void _setMarkStateRecursive(MarkState ms);
 	void _setLocalMarkState(MarkState ms);
 	MarkState _getMarkState() const;

@@ -5,6 +5,10 @@ gc_obj::gc_obj() {
   //Do nothing
 }
 
+gc_obj::~gc_obj() {
+  assert(false && "gc_obj cannot be destroyed by anyone except the garbage collector");
+}
+
 //Recursively mark objects
 void gc_obj::_setMarkStateRecursive(MarkState ms) {
   if (_getMarkState()==ms) return;

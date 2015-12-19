@@ -12,15 +12,18 @@ Collector::Collector() {
 //Destructors of garbage collected objects are not called. Instead, use finalizer
 Collector::~Collector() {
   for (auto iter = root_objs.begin(),end = root_objs.end(); iter!=end; iter++) {
+    (*iter)->finalize();
     operator delete(*iter);
   }
   for (auto iter = alloc_objs.begin(),end = alloc_objs.end(); iter!=end; iter++) {
+    (*iter)->finalize();
     operator delete(*iter);
   }
 }
 
 //Add a root object for monitoring
 void Collector::addRoot(gc_obj* obj) {
+  if (!obj) return;
   assertOnHeap(obj);
   //We shouldnt be asked to add the same root more than once
   assert((int)root_objs.count(obj)==0 && "Interface Error: Object to be added already in root set.");
@@ -43,6 +46,7 @@ void Collector::addRoot(gc_obj* obj) {
 
 //Add a non-root object to the collector responsibility
 void Collector::addObject(gc_obj* obj) {
+  if (!obj) return;
   assertOnHeap(obj);
   assert((int)root_objs.count(obj)==0 && "Interface Error: Object already present within the root set");
   assert((int)alloc_objs.count(obj)==0 && "Interface Error: Object is already monitored");
@@ -146,7 +150,7 @@ void Collector::addAlloc(gc_obj* obj) {
   const std::unordered_set<gc_obj*>& linked = obj->getManagedChildren();
   for (auto iter=linked.begin(),end=linked.end(); iter!=end; iter++) {
     gc_obj* candidate = *iter;
-    if ((int)alloc_objs.count(candidate)==0 && (int)root_objs.count(candidate)==0) {
+    if (candidate && (int)alloc_objs.count(candidate)==0 && (int)root_objs.count(candidate)==0) {
       addAlloc(candidate);
     }
   }
