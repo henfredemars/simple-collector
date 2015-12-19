@@ -8,6 +8,7 @@ simple-collector is a very small, single-threaded, precise, light-weight garbage
 0. Explicitly control when your application collects memory
 0. Run multiple instances of the collector independently and in isolation
 0. Add a tiny portable dependency with less than 500 lines of code to your application
+0. Collecter always frees all objects that have become inaccessible on a collection
 0. Use the highly-permisive and worry-free MIT license
 
 # Building the Collector
