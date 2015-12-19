@@ -85,3 +85,4 @@ int main(int arc, char** argv) {
 0. The collector is not thread safe
 0. The collector requires individual association with each new object to be collected
 0. The collector is neither generational nor incremental (pause times may be noticable for large heaps)
+0. Finalizers may not depend on other garbage-collected objects or the objects may be collected in advance of finalizer execution
