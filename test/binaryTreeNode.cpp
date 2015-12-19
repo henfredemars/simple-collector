@@ -27,19 +27,17 @@ void BinaryTreeNode::curtailToLevel(const int lvl) {
 	}
 }
 
-void BinaryTreeNode::extendToLevel(const int size,Collector* collector) {
+void BinaryTreeNode::extendToLevel(const int size) {
 	if (size==0) return;
 	if (leftChild && rightChild) {
-	  leftChild->extendToLevel(size-1,collector);
-	  rightChild->extendToLevel(size-1,collector);
+	  leftChild->extendToLevel(size-1);
+	  rightChild->extendToLevel(size-1);
 	} else if (!leftChild) {
 	  leftChild = new BinaryTreeNode(size);
-	  collector->addObject(leftChild);
-	  this->extendToLevel(size,collector);
+	  this->extendToLevel(size);
 	} else if (leftChild && !rightChild) {
 	  rightChild = new BinaryTreeNode(size);
-	  collector->addObject(rightChild);
-	  this->extendToLevel(size,collector);
+	  this->extendToLevel(size);
 	}
 }
 
