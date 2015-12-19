@@ -30,7 +30,7 @@ Next, implement your garbage collected objects as subclasses of gc_obj declared 
 
 Decide on the root objects for your garbage collected area. In a tree structure, this would be the root node, or the main node of your object graph. A root object might be created expressly to reference other garbage-collected objects in your object pool. 
 
-Finally, create an instance of Collector (src/include/collector.h) and add the root object with Collector.addRoot(obj). The collector will recursively scan the root and all of its connected children via the overriden getManagedChildren() methods. You may also add managed objects manually using Collector.addObject() on each object. When creating new objects, it is not enough that the new objects are returned as managed children later. You must explicitly call Collector.addObject(obj) when a new object should be subject to garbage collection. 
+Finally, create an instance of Collector (src/include/collector.h) and add one or more root objects with Collector.addRoot(obj). The collector will recursively scan the root and all of its connected children via the overriden getManagedChildren() methods. You may also add managed objects manually using Collector.addObject() on each object. When creating new objects, it is not enough that the new objects are returned as managed children later. You must explicitly call Collector.addObject(obj) when a new object should be subject to garbage collection. 
 
 # Example
 
