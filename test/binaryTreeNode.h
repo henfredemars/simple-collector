@@ -1,15 +1,13 @@
 
 #include <unordered_set>
 #include "../src/include/gc_obj.h"
-#include "../src/include/collector.h"
 
 class BinaryTreeNode : public gc_obj {
 public:
 	BinaryTreeNode(const int id);
-	~BinaryTreeNode() = delete;
 	int size() const;
 	void curtailToLevel(const int lvl);
-	void extendToLevel(const int size,Collector* collector);
+	void extendToLevel(const int size);
 	void addLeftChild(BinaryTreeNode* leftChild);
 	void addRightChild(BinaryTreeNode* rightChild);
 	virtual void finalize();
