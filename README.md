@@ -80,3 +80,8 @@ int main(int arc, char** argv) {
 }
 ```
 
+# Limitations
+
+0. The collector is not thread safe
+0. The collector requires individual association with each new object to be collected
+0. The collector is neither generational nor incremental (pause times may be noticable for large heaps)
