@@ -16,8 +16,8 @@ int main(int arc, char** argv) {
 
 	//Build binary tree
 	BinaryTreeNode* node = new BinaryTreeNode(999);
+	node->extendToLevel(4);
 	collector.addRoot(node);
-	node->extendToLevel(4,&collector);
 
 	//Compute size of the tree
 	printf("Tree size: %d nodes\n", node->size());
