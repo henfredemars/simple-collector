@@ -1,5 +1,5 @@
 # simple-collector
-A simple yet precise mark-sweep garbage collector for C++ object graphs
+A simple yet precise mark-sweep garbage collector for C++ object systems
 
 simple-collector is a very small, single-threaded, precise, light-weight garbage collector for C++. It implements a simple mark-sweep algorithm on top of malloc()-free() without the bells and whistles. With simple-collector, you can:
 
