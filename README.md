@@ -37,7 +37,7 @@ Finally, create an instance of Collector (src/include/collector.h) and add one o
 ```
 class BinaryTreeNode : public gc_obj {
 public:
-	BinaryTreeNode() {};
+	BinaryTreeNode() {leftChild=nullptr; rightChild=nullptr;};
 	void extendToLevel(const int size,Collector* collector);
 	virtual void finalize() { printf("Finalize!\n"); }
 	virtual std::unordered_set<gc_obj*> getManagedChildren();
@@ -63,10 +63,8 @@ void BinaryTreeNode::extendToLevel(const int size,Collector* collector) {
 
 std::unordered_set<gc_obj*> BinaryTreeNode::getManagedChildren() {
 	std::unordered_set<gc_obj*> children;
-	if (leftChild)
-	  children.insert(leftChild);
-	if (rightChild)
-	  children.insert(rightChild);
+	children.insert(leftChild);
+	children.insert(rightChild);
 	return children;
 }
 
